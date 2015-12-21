@@ -140,7 +140,6 @@ screens = [
                     highlight_method="block",
                     this_current_screen_border=colors["blue"]
                 ),
-                widget.Spacer(),
                 widget.Prompt(),
 
             ],
