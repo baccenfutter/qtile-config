@@ -129,7 +129,7 @@ screens = [
                 widget.Spacer(),
                 widget.Clock(
                     timezone="Europe/Berlin",
-                    format="%Y-%m-%d %a %I:%M %p"
+                    format="%Y-%m-%d %a %H:%M:%S"
                 ),
             ],
             30
