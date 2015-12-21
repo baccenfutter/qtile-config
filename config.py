@@ -66,7 +66,7 @@ keys = [
 workspaces = [
     {"key": "1", "name": "shell"},
     {"key": "2", "name": "web", "matches": [Match(wm_class=["Firefox"])]},
-    {"key": "3", "name": "mail", "matches": [Match(wm_class=["Thunderbird", "Evolution"])]},
+    {"key": "3", "name": "devel", "matches": [Match(wm_class=["Pycharm", "Welcome to PyCharm"])]},
     {"key": "4", "name": "4"},
     {"key": "5", "name": "5"},
     {"key": "6", "name": "6"},
