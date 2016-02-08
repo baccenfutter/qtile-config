@@ -11,6 +11,7 @@ lock = "xtrlock"
 vol_cur = "amixer -D pulse get Master"
 vol_up = "amixer -q -D pulse sset Master 2%+"
 vol_down = "amixer -q -D pulse sset Master 2%-"
+minecraft = "java -jar /home/baccenfutter/Minecraft.jar"
 
 mute = "amixer -q -D pulse set Master toggle"
 
@@ -23,35 +24,37 @@ colors = {
 }
 
 keys = [
+    # cycle to previous and next group
+    Key(["control", alt], "Left", lazy.screen.prev_group(skip_managed=True)),
+    Key(["control", alt], "Right", lazy.screen.next_group(skip_managed=True)),
+    Key(["control", mod, alt], "Left", lazy.screen.prev_group()),
+    Key(["control", mod, alt], "Right", lazy.screen.next_group()),
+
     # Switch between windows in current stack pane
-    Key([mod], "comma", lazy.layout.down()),
-    Key([mod], "period", lazy.layout.up()),
-    Key([mod, "control"], "f", lazy.layout.rotate()),   # flip sides
-    Key([mod], "Tab", lazy.layout.next()),
-
-    # Swap panes of split stack
-
-    # My beloved terminal and browser
-    Key([mod], "Return", lazy.spawn(terminal)),
-    Key([mod, "shift"], "Return", lazy.spawn(browser)),
+    Key([mod], "comma", lazy.layout.previous()),
+    Key([mod], "period", lazy.layout.next()),
+    Key([mod], "Tab", lazy.layout.down()),
+    Key([mod, "shift"], "Tab", lazy.layout.up()),
 
     # Toggle between different layouts as defined below
     Key([mod], "space", lazy.next_layout()),
     Key([mod], "w", lazy.window.kill()),
-    Key([mod], "f", lazy.window.toggle_fullscreen()),
+    Key([mod, "shift"], "f", lazy.window.toggle_fullscreen()),
     Key([mod], "t", lazy.window.toggle_floating()),
+    Key([mod, alt], "space", lazy.layout.rotate()),   # flip sides
 
     # Start, stop, restart
     Key([mod, "control"], "r", lazy.restart()),
     Key([mod, "control"], "q", lazy.shutdown()),
     Key([mod], "r", lazy.spawncmd()),
+    Key([alt], "F2", lazy.spawncmd()),
 
     # Security
     Key([alt, "control"], "l", lazy.spawn(lock)),
 
-    # cycle to previous and next group
-    Key([mod, "shift"], "comma", lazy.screen.prev_group(skip_managed=True)),
-    Key([mod, "shift"], "period", lazy.screen.next_group(skip_managed=True)),
+    # My beloved terminal and browser
+    Key([mod, "control"], "t", lazy.spawn(terminal)),
+    Key([mod, "control"], "f", lazy.spawn(browser)),
 
     # Multihead magic
     Key([mod, "control"], "comma", lazy.prev_screen()),
@@ -61,13 +64,36 @@ keys = [
     Key([], "XF86AudioRaiseVolume", lazy.spawn(vol_up)),
     Key([], "XF86AudioLowerVolume", lazy.spawn(vol_down)),
     Key([], "XF86AudioMute", lazy.spawn(mute)),
+
+    # Games
+    Key([mod, "control"], "m", lazy.spawn(minecraft)),
 ]
+
+matchers = {
+    'web': [
+        Match(wm_class=[
+            "Firefox",
+        ])
+    ],
+    'dev': [
+        Match(wm_class=[
+            "Pycharm",
+            "Rubymine",
+        ])
+    ],
+    'games': [
+        Match(wm_class=[
+            "Minecraft",
+            "Minecraft Launcher",
+        ])
+    ],
+}
 
 workspaces = [
     {"key": "1", "name": "shell"},
-    {"key": "2", "name": "web", "matches": [Match(wm_class=["Firefox"])]},
-    {"key": "3", "name": "devel", "matches": [Match(wm_class=["Pycharm", "Welcome to PyCharm"])]},
-    {"key": "4", "name": "4"},
+    {"key": "2", "name": "web", "matches": matchers["web"]},
+    {"key": "3", "name": "development", "matches": matchers["dev"]},
+    {"key": "4", "name": "games"},
     {"key": "5", "name": "5"},
     {"key": "6", "name": "6"},
     {"key": "7", "name": "7"},
@@ -103,14 +129,6 @@ screens = [
     Screen(
         top=bar.Bar(
             [
-                #widget.TextBox(text="Temp:"),
-                #widget.ThermalSensor(threshold=65, foreground_alert=colors["red"]),
-                #widget.Sep(padding=15),
-
-                #widget.TextBox(text="Battery:"),
-                #widget.Battery(battery_name="BAT1", low_foreground=colors["red"]),
-                #widget.Sep(padding=15),
-
                 widget.TextBox(text="Light:"),
                 widget.Backlight(
                     brightness_file="/sys/class/backlight/intel_backlight/actual_brightness",
@@ -164,10 +182,8 @@ screens = [
 
 # Drag floating layouts.
 mouse = [
-    Drag([mod], "Button1", lazy.window.set_position_floating(),
-         start=lazy.window.get_position()),
-    Drag([mod], "Button3", lazy.window.set_size_floating(),
-         start=lazy.window.get_size()),
+    Drag([mod], "Button1", lazy.window.set_position_floating(), start=lazy.window.get_position()),
+    Drag([mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()),
     Click([mod], "Button2", lazy.window.bring_to_front())
 ]
 
