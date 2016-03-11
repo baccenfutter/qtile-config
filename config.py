@@ -31,10 +31,10 @@ keys = [
     Key(["control", mod, alt], "Right", lazy.screen.next_group()),
 
     # Switch between windows in current stack pane
-    Key([mod], "comma", lazy.layout.previous()),
-    Key([mod], "period", lazy.layout.next()),
-    Key([mod], "Tab", lazy.layout.down()),
-    Key([mod, "shift"], "Tab", lazy.layout.up()),
+    Key([mod], "comma", lazy.layout.up()),
+    Key([mod], "period", lazy.layout.down()),
+    Key([mod], "Tab", lazy.layout.previous()),
+    Key([mod, "shift"], "Tab", lazy.layout.next()),
 
     # Toggle between different layouts as defined below
     Key([mod], "space", lazy.next_layout()),
