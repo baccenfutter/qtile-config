@@ -129,6 +129,9 @@ screens = [
     Screen(
         top=bar.Bar(
             [
+                widget.TextBox(text="Battery:"),
+                widget.Battery(battery_name='BAT1'),
+                widget.Sep(padding=15),
                 widget.TextBox(text="Light:"),
                 widget.Backlight(
                     brightness_file="/sys/class/backlight/intel_backlight/actual_brightness",
